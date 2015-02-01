@@ -10,11 +10,11 @@ session_start();
 <body>
 
 	<div class="results">
-		<div class="resultsgraphbar">e</div>
-		<div class="resultsgraphbar">d</div>
-		<div class="resultsgraphbar">c</div>
-		<div class="resultsgraphbar">b</div>
-		<div class="resultsgraphbar">a</div>
+		<div class="graph"> </div>
+		<div class="graph"> </div>
+		<div class="graph"> </div>
+		<div class="graph"> </div>
+		<div class="graph"> </div>
 	</div>
 
 
