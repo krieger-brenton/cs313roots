@@ -3,7 +3,7 @@
 
 	if(isset($_SESSION['voted']))
 		if($_SESSION['voted'])
-		header( 'Location: results.php' );
+			header( 'Location: results.php' );
 
 	$file = fopen('results.txt', 'r');
 	$stuff = fread($file, filesize('results.txt'));
