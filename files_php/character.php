@@ -1,34 +1,41 @@
 <?php
+
+require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
+
 session_start();
 session_unset();
 
 if (!empty($_GET['player_name']))
   $_SESSION['player_name'] = $_GET['player_name'];
+else
+  $_SESSION['player_name'] = "";
 
-if (!empty($_GET['player_name']))
+if (!empty($_GET['character_name']))
   $_SESSION['character_name'] = $_GET['character_name'];
+else
+  $_SESSION['character_name'] = "";
 
 if (!empty($_GET['alignment']))
   $_SESSION['alignment'] = $_GET['alignment'];
 
 // core stats
 if (!empty($_GET['str']))
-  $_SESSION['str'] = $_GET['str'];
+  $_SESSION['str'] = floor(($_GET['str'] - 10) / 2);
 
 if (!empty($_GET['dex']))
-  $_SESSION['dex'] = $_GET['dex'];
+  $_SESSION['dex'] = floor(($_GET['dex'] - 10) / 2);
 
 if (!empty($_GET['con']))
-  $_SESSION['con'] = $_GET['con'];
+  $_SESSION['con'] = floor(($_GET['con'] - 10) / 2);
 
 if (!empty($_GET['int']))
-  $_SESSION['int'] = $_GET['int'];
+  $_SESSION['int'] = floor(($_GET['int'] - 10) / 2);
 
 if (!empty($_GET['wis']))
-  $_SESSION['wis'] = $_GET['wis'];
+  $_SESSION['wis'] = floor(($_GET['wis'] - 10) / 2);
 
 if (!empty($_GET['cha']))
-  $_SESSION['cha'] = $_GET['cha'];
+  $_SESSION['cha'] = floor(($_GET['cha'] - 10) / 2);
 
 if (!empty($_GET['race']))
   $_SESSION['race'] = $_GET['race'];
@@ -47,32 +54,17 @@ $classes[9] = 'sorcerer';
 $classes[10] = 'warlock';
 $classes[11] = 'wizard';
 
-if (!empty($_GET[$classes[0]]))
-  $_SESSION[$classes[0]] = $_GET[$classes[0]];
-if (!empty($_GET[$classes[1]]))
-  $_SESSION[$classes[1]] = $_GET[$classes[1]];
-if (!empty($_GET[$classes[2]]))
-  $_SESSION[$classes[2]] = $_GET[$classes[2]];
-if (!empty($_GET[$classes[3]]))
-  $_SESSION[$classes[3]] = $_GET[$classes[3]];
-if (!empty($_GET[$classes[4]]))
-  $_SESSION[$classes[4]] = $_GET[$classes[4]];
-if (!empty($_GET[$classes[5]]))
-  $_SESSION[$classes[5]] = $_GET[$classes[5]];
-if (!empty($_GET[$classes[6]]))
-  $_SESSION[$classes[6]] = $_GET[$classes[6]];
-if (!empty($_GET[$classes[7]]))
-  $_SESSION[$classes[7]] = $_GET[$classes[7]];
-if (!empty($_GET[$classes[8]]))
-  $_SESSION[$classes[8]] = $_GET[$classes[8]];
-if (!empty($_GET[$classes[9]]))
-  $_SESSION[$classes[9]] = $_GET[$classes[9]];
-if (!empty($_GET[$classes[10]]))
-  $_SESSION[$classes[10]] = $_GET[$classes[10]];
-if (!empty($_GET[$classes[11]]))
-  $_SESSION[$classes[11]] = $_GET[$classes[11]];
+for($i = 0; $i < 12; $i++)
+{
+  if (!empty($_GET[$classes[$i]]))
+  {
+    $_SESSION[$classes[$i]] = $_GET[$classes[$i]];
+  }
+}
 
 //need some skills
+
+
 if (!empty($_GET['weapon_one']))
   $_SESSION['weapon_one'] = $_GET['weapon_one'];
 
@@ -85,33 +77,19 @@ if (!empty($_GET['armor']))
 if (!empty($_GET['shield']))
   $_SESSION['shield'] = $_GET['shield'];
 
-$user = "root";
-$password ="";
-$database = "project";
-$server = "127.0.0.1";
-$db_name = "project";
+if(!empty($_GET['shield']) && $_GET['shield'] == true)
+  $_SESSION['ac'] += 2;
 
-$conn = new mysqli($server, $user, $password, $db_name);
-if($conn->connect_error)
+$db = loadDatabase();
+$SQL = $db->query("SELECT size,speed FROM race WHERE name='" . $_SESSION['race'] . "'");
+$results = $SQL->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($results as $row)
 {
-  die("Connection failed: " . $conn->connect_error);
+  $_SESSION['size'] = $row['size'];
+  $_SESSION['speed'] = $row['speed'];
 }
 
-$SQL = "SELECT * FROM race WHERE name='" . $_SESSION['race'] . "'";
-$results = $conn->query($SQL);
-
-if($results->num_rows > 0)
-{
-  while($db_field = $results->fetch_assoc())
-  {
-    $_SESSION['size'] = $db_field['size'];
-    $_SESSION['speed'] = $db_field['speed']; 
-  }
-}
-else
-{
-  print "Didn't find anything <BR />";
-}
 
 $_SESSION['hit_die'] = ""; 
 $_SESSION['level'] = 0;
@@ -121,19 +99,19 @@ for($i = 0; $i < 12; $i++)
 {
   if(isset($_SESSION[$classes[$i]]))
   {
-    $SQL = "SELECT * FROM class_info WHERE name='" . $classes[$i] . "'";
-    $results = $conn->query($SQL);
+    $SQL = $db->query("SELECT hit_die FROM class_info WHERE name='" . $classes[$i] . "'");
+    $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
 
-    while ($db_field = $results->fetch_assoc())
+    foreach ($results as $row)
     {
       if($first)
       {
-        $_SESSION['hit_die'] .= $_SESSION[$classes[$i]] . $db_field['hit_die'];
+        $_SESSION['hit_die'] .= $_SESSION[$classes[$i]] . $row['hit_die'];
         $first = false;
       }
       else
       {
-        $_SESSION['hit_die'] .=  " + " . $_SESSION[$classes[$i]] . $db_field['hit_die'];
+        $_SESSION['hit_die'] .=  " + " . $_SESSION[$classes[$i]] . $row['hit_die'];
       }
 
     }
@@ -142,8 +120,66 @@ for($i = 0; $i < 12; $i++)
   }
 }
 
+if(isset($_SESSION['armor']))
+{
+  $SQL = $db->prepare("SELECT type, ac, str, stealth FROM armor WHERE name= :name");
+  $SQL->bindParam(':name', $_SESSION['armor'], PDO::PARAM_STR);
+  $SQL->execute();
 
-$conn->close();
+  $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($results as $row)
+  {
+    $_SESSION['ac'] = $row['ac'];
+  }
+}
+else
+  $_SESSION['ac'] = 10;
+
+if (!isset($_GET['weapon_one']))
+{
+  $SQL = $db->query("SELECT weapon_name, property_name, content FROM weapon w JOIN weapon_property wp ON (w.weapon_id = wp.weapon_id) JOIN property p ON (p.property_id = wp.property_id) WHERE weapon_name = '" . $_SESSION['weapon_one'] . "'");
+  $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
+
+
+  $first = true;
+  foreach($results as $row)
+  {
+    if ($first)
+    {
+      print "<label>" . $row['weapon_name'] . "</label>";
+      print "<div>";
+      $first = false;
+    }
+    print $row['property_name'] . ": " . $row['content'] . "<BR />";  
+  }
+  print "</div>";
+}
+if (!isset($_GET['weapon_two']))
+{
+  $SQL = $db->query("SELECT weapon_name, property_name, content FROM weapon w JOIN weapon_property wp ON (w.weapon_id = wp.weapon_id) JOIN property p ON (p.property_id = wp.property_id) WHERE weapon_name = '" . $_SESSION['weapon_two'] . "'");
+  $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
+
+
+  $first = true;
+  foreach($results as $row)
+  {
+    if ($first)
+    {
+      print "<label>" . $row['weapon_name'] . "</label>";
+      print "<div>";
+      $first = false;
+    }
+    print $row['property_name'] . ": " . $row['content'] . "<BR />";  
+  }
+  print "</div>";
+}
+
+$conn = null;
+
+
+
+$_SESSION['prof'] = (ceil(($_SESSION['level']/4)) + 1);
 
 print "Player Name: " . $_SESSION['player_name'] . '<BR />';
 print "Character name: " . $_SESSION['character_name'] . '<BR />';
@@ -151,6 +187,13 @@ print "Race: " . $_SESSION['race'] . '<BR />';
 print "Size: " . $_SESSION['size'] . '<BR />';
 print "Speed: " . $_SESSION['speed'] . 'ft<BR />';
 print "Level: " . $_SESSION['level'] . '<BR />';
+print "Profficency Bonus: +" . $_SESSION['prof'] . '<BR />';
 print "Hit Dice: " . $_SESSION['hit_die'] . '<BR />';
-
+print "Armor: " . $_SESSION['ac'] . '<BR />';
+print "Stat, Strength: " . $_GET['str'] . ", Modifier: +" . $_SESSION['str'] . "<BR />";
+print "Stat, Dexterity: " . $_GET['dex'] . ", Modifier: +" . $_SESSION['dex'] . "<BR />";
+print "Stat, Constitution: " . $_GET['con'] . ", Modifier: +" . $_SESSION['con'] . "<BR />";
+print "Stat, Intelligence: " . $_GET['int'] . ", Modifier: +" . $_SESSION['int'] . "<BR />";
+print "Stat, Wisdom: " . $_GET['wis'] . ", Modifier: +" . $_SESSION['wis'] . "<BR />";
+print "Stat, Charisma: " . $_GET['cha'] . ", Modifier: +" . $_SESSION['cha'] . "<BR />"; 
 ?>
