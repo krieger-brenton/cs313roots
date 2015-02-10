@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
 
 session_start();
 session_unset();
