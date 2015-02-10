@@ -2,7 +2,7 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
 
 session_start();
-
+echo "test";
 $db = loadDatabase();
 $SQL = $db->query("SELECT name, type, ac, str, stealth FROM armor");
 $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
