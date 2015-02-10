@@ -10,6 +10,18 @@
     <header>
       <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.php" class="navbutton">Character Maker</a></nav>
     </header>
-    <div class="master"><?php include $_SERVER['DOCUMENT_ROOT'] . '/files_php/week2.php'; ?></div>
+    <div class="master">
+      <!--<?php require $_SERVER['DOCUMENT_ROOT'] . '/files_php/week2.php'; ?>-->
+      <form action="week2.php" method="GET">
+        <select name="table">
+          <option>Armor</option>
+          <option>Class</option>
+          <option>Race</option>
+          <option>Property</option>
+          <option>Weapon</option>
+        </select>
+        <input type="submit" value="Query Database">
+      </form>
+    </div>
   </body>
 </html>
