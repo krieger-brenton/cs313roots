@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <nav><a href="index.html" class="navbutton">Home</a><a href="assignments.html" class="navbutton">Assignments</a><a href="character.html" class="navbutton">Character Maker</a></nav>
+      <nav><a href="index.html" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.html" class="navbutton">Character Maker</a></nav>
     </header>
     <div class="master"><?php require $_SERVER['DOCUMENT_ROOT'] . '/files_php/characterGen.php';?>
       <div class="characterInfo">

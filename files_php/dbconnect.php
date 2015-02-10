@@ -1,20 +1,31 @@
 <?php
-function loadDatabase() 
-{ 
-  $hostName = 'localhost';
-  $dbName = 'project';
-  $userName = 'root';
-  $password = '';
-  
-  try
+
+function loadDatabase()
+{
+
+  $dbHost = "";
+  $dbUser = "";
+  $dbPassword = "";
+
+  $dbName = "testdb";
+
+  $openShiftVar = getenv('OPENSHIFT_MYSQL_DB_HOST');
+
+  if ($openShiftVar === null || $openShiftVar == "")
   {
-    $db = new PDO("mysql:host=$hostName;dbname=$dbName",$userName, $password);
+    require("setLocalDatabaseCredentials.php");
   }
-  catch (PDOException $ex) 
-  {
-    echo "Error!: " . $ex->getMessage();
-    die(); 
+  else 
+  { 
+    $dbHost = getenv('OPENSHIFT_MYSQL_DB_HOST'); 
+    $dbUser = getenv('OPENSHIFT_MYSQL_DB_USERNAME');
+    $dbPassword = getenv('OPENSHIFT_MYSQL_DB_PASSWORD');
   }
+
+  $db = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPassword);
+
   return $db;
+
 }
+
 ?>
