@@ -56,9 +56,6 @@ for($i = 0; $i < 12; $i++)
   }
 }
 
-//need some skills
-
-
 if (!empty($_GET['weapon_one']))
   $_SESSION['weapon_one'] = $_GET['weapon_one'];
 
@@ -72,7 +69,7 @@ if (!empty($_GET['armor']))
 
 
 $db = loadDatabase();
-$SQL = $db->query("SELECT size,speed FROM race WHERE name='" . $_SESSION['race'] . "'");
+$SQL = $db->query("SELECT size,speed FROM race WHERE race_name='" . $_SESSION['race'] . "'");
 $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($results as $row)
@@ -90,7 +87,7 @@ for($i = 0; $i < 12; $i++)
 {
   if(isset($_SESSION[$classes[$i]]))
   {
-    $SQL = $db->query("SELECT hit_die FROM class_info WHERE name='" . $classes[$i] . "'");
+    $SQL = $db->query("SELECT hit_die FROM class_info WHERE class_name='" . $classes[$i] . "'");
     $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $row)
@@ -116,7 +113,7 @@ $_SESSION['prof'] = (ceil(($_SESSION['level']/4)) + 1);
 
 if(isset($_SESSION['armor']))
 {
-  $SQL = $db->prepare("SELECT type, ac, str, stealth FROM armor WHERE name= :name");
+  $SQL = $db->prepare("SELECT type, ac, str, stealth FROM armor WHERE armor_name= :name");
   $SQL->bindParam(':name', $_SESSION['armor'], PDO::PARAM_STR);
   $SQL->execute();
 
@@ -166,11 +163,4 @@ if (!empty($_GET['weapon_two']))
   }
 }
 
-$conn = null;
-
-
-
-//print "Profficency Bonus: +" . $_SESSION['prof'] . '<BR />';
-//print "Hit Dice: " . $_SESSION['hit_die'] . '<BR />';
-//print "Armor: " . $_SESSION['ac'] . '<BR />';
 ?>
