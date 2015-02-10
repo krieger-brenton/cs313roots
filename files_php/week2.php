@@ -1,7 +1,7 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
-
 session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbConnect.php';
+
 echo "test";
 $db = loadDatabase();
 $SQL = $db->query("SELECT name, type, ac, str, stealth FROM armor");
