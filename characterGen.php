@@ -35,7 +35,7 @@
           <button class="weaponAttack">not ready yet</button><br><br><br>
           <div class="weaponContent">
              
-            <?php if (!empty($prop)) {foreach($props_one as $prop){ print $prop . '<BR />';} } ?>
+            <?php if (!empty($props_one)) {foreach($props_one as $prop){ print $prop . '<BR />';} } ?>
           </div>
         </div>
         <div class="weapon">
@@ -47,7 +47,7 @@
           <button class="weaponAttack">not ready yet</button><br><br><br>
           <div class="weaponContent">
              
-            <?php if (!empty($prop)) {foreach($props_one as $prop){ print $prop . '<BR />';} } ?>
+            <?php if (!empty($props_two)) {foreach($props_two as $prop){ print $prop . '<BR />';} } ?>
           </div>
         </div>
       </div>
