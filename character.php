@@ -8,10 +8,10 @@
   </head>
   <body>
     <header>
-      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.php" class="navbutton">Character Maker</a></nav>
+      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
     </header>
-    <div class="master">
-      <form action="characterGen.php" method="GET">
+    <div class="master"><?php session_start();?>
+      <form action="characterGen.php" id="character_form">
         <div class="playerholder">
           <div class="characterheading">Player</div>
           <label>Player Name</label>
@@ -92,43 +92,43 @@
           <div class="characterheading">Skills</div>
           <div class="col">
             <label>Acrobatics</label>
-            <input type="checkbox" value="" name="skill_acrobatics" class="box">
+            <input type="checkbox" value="acrobatics" name="skill_acrobatics" class="box">
             <label>Animal Handling</label>
-            <input type="checkbox" value="" name="skill_animal_handling" class="box">
+            <input type="checkbox" value="animal_handling" name="skill_animal_handling" class="box">
             <label>Arcana</label>
-            <input type="checkbox" value="" name="skill_arcana" class="box">
+            <input type="checkbox" value="arcana" name="skill_arcana" class="box">
             <label>Athletics</label>
-            <input type="checkbox" value="" name="skill_athletics" class="box">
+            <input type="checkbox" value="athletics" name="skill_athletics" class="box">
             <label>Deception</label>
-            <input type="checkbox" value="" name="skill_deception" class="box">
+            <input type="checkbox" value="deception" name="skill_deception" class="box">
             <label>History</label>
-            <input type="checkbox" value="" name="skill_history" class="box">
+            <input type="checkbox" value="history" name="skill_history" class="box">
             <label>Insight</label>
-            <input type="checkbox" value="" name="skill_insight" class="box">
+            <input type="checkbox" value="insight" name="skill_insight" class="box">
             <label>Intimidation</label>
-            <input type="checkbox" value="" name="skill_intimidation" class="box">
+            <input type="checkbox" value="intimidation" name="skill_intimidation" class="box">
             <label>Investigation</label>
-            <input type="checkbox" value="" name="skill_investigation" class="box">
+            <input type="checkbox" value="investigation" name="skill_investigation" class="box">
           </div>
           <div class="col">
             <label>Medicine</label>
-            <input type="checkbox" value="" name="skill_medicine" class="box">
+            <input type="checkbox" value="medicine" name="skill_medicine" class="box">
             <label>Nature</label>
-            <input type="checkbox" value="" name="skill_nature" class="box">
+            <input type="checkbox" value="nature" name="skill_nature" class="box">
             <label>Perception</label>
-            <input type="checkbox" value="" name="skill_perception" class="box">
+            <input type="checkbox" value="perception" name="skill_perception" class="box">
             <label>Performance</label>
-            <input type="checkbox" value="" name="skill_performance" class="box">
+            <input type="checkbox" value="performance" name="skill_performance" class="box">
             <label>Persuasion</label>
-            <input type="checkbox" value="" name="skill_persuasion" class="box">
+            <input type="checkbox" value="persuasion" name="skill_persuasion" class="box">
             <label>Religion</label>
-            <input type="checkbox" value="" name="skill_religion" class="box">
+            <input type="checkbox" value="religion" name="skill_religion" class="box">
             <label>Sleight of Hand</label>
-            <input type="checkbox" value="" name="skill_sleight_of_hand" class="box">
+            <input type="checkbox" value="sleight_of_hand" name="skill_sleight_of_hand" class="box">
             <label>Stealth</label>
-            <input type="checkbox" value="" name="skill_stealth" class="box">
+            <input type="checkbox" value="stealth" name="skill_stealth" class="box">
             <label>Survival</label>
-            <input type="checkbox" value="" name="skill_survival" class="box">
+            <input type="checkbox" value="survival" name="skill_survival" class="box">
           </div>
         </div>
         <div class="equipmentholder">
@@ -236,7 +236,7 @@
           <label>Shield</label>
           <input type="checkbox" name="shield">
         </div>
-        <input type="submit" value="Make Character">
+        <input type="submit" id="button" value="Make Character">
       </form>
     </div>
   </body>

@@ -8,9 +8,9 @@
   </head>
   <body>
     <header>
-      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.php" class="navbutton">Character Maker</a></nav>
+      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
     </header>
-    <div class="master"><?php if(!isset($_SESSION['bool'])) {$_SESSION['bool'] = true;} if ($_SESSION['bool'] === true) { require $_SERVER['DOCUMENT_ROOT'] . '/files_php/characterGen.php'; }?>
+    <div class="master"><?php session_start(); $classes[0] = 'barbarian'; $classes[1] = 'bard'; $classes[2] = 'cleric'; $classes[3] = 'druid'; $classes[4] = 'fighter'; $classes[5] = 'monk'; $classes[6] = 'paladin'; $classes[7] = 'ranger'; $classes[8] = 'rogue'; $classes[9] = 'sorcerer'; $classes[10] = 'warlock'; $classes[11] = 'wizard';?>
       <div class="characterInfo">
         <div class="playerName"><span><?php print "Player Name: " . $_SESSION['player_name']; ?></span></div>
         <div class="characterName"><span><?php print "Character Name: " . $_SESSION['character_name']; ?></span></div>
@@ -28,24 +28,24 @@
         <lable>Skill Checks</lable>
         <div class="col">
            
-          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if (isset($_SESSION['skill_acrobatics'])) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Animal Handling' onclick='statRolls("; if (isset($_SESSION['skill_animal_handling'])) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='Arcana' onclick='statRolls("; if (isset($_SESSION['skill_arcana'])) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='Athletics' onclick='statRolls("; if (isset($_SESSION['skill_athletics'])) $line .= $_SESSION['str'] + $_SESSION['prof']; else $line .= $_SESSION['str']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='Deception' onclick='statRolls("; if (isset($_SESSION['skill_deception'])) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='History' onclick='statRolls("; if (isset($_SESSION['skill_history'])) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='Insight' onclick='statRolls("; if (isset($_SESSION['skill_insight'])) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line;        ?>
-          <?php $line = "<input type='button' value='Intimidation' onclick='statRolls("; if (isset($_SESSION['skill_intimidation'])) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line;        ?>          
-          <?php $line = "<input type='button' value='Investigation' onclick='statRolls(";if (isset($_SESSION['skill_investigation'])) {$line .= $_SESSION['int'] + $_SESSION['prof'];} else {$line .= $_SESSION['int'];} $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Medicine' onclick='statRolls("; if (isset($_SESSION['skill_medicine'])) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Nature' onclick='statRolls("; if (isset($_SESSION['skill_nature'])) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Perception' onclick='statRolls("; if (isset($_SESSION['skill_perception'])) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Performance' onclick='statRolls("; if (isset($_SESSION['skill_performance'])) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Persuasion' onclick='statRolls("; if (isset($_SESSION['skill_persuasion'])) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Religion' onclick='statRolls("; if (isset($_SESSION['skill_religion'])) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Sleight of Hand' onclick='statRolls("; if (isset($_SESSION['skill_sleight_of_hand'])) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Stealth' onclick='statRolls("; if (isset($_SESSION['skill_stealth'])) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
-          <?php $line = "<input type='button' value='Survival' onclick='statRolls("; if (isset($_SESSION['skill_survival'])) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if ($_SESSION['skill_acrobatics'] != 0) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Animal Handling' onclick='statRolls("; if ($_SESSION['skill_animal_handling'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Arcana' onclick='statRolls("; if ($_SESSION['skill_arcana'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Athletics' onclick='statRolls("; if ($_SESSION['skill_athletics'] != 0) $line .= $_SESSION['str'] + $_SESSION['prof']; else $line .= $_SESSION['str']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Deception' onclick='statRolls("; if ($_SESSION['skill_deception'] != 0) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='History' onclick='statRolls("; if ($_SESSION['skill_history'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Insight' onclick='statRolls("; if ($_SESSION['skill_insight'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Intimidation' onclick='statRolls("; if ($_SESSION['skill_intimidation'] != 0) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>          
+          <?php $line = "<input type='button' value='Investigation' onclick='statRolls(";if ($_SESSION['skill_investigation'] != 0) {$line .= $_SESSION['int'] + $_SESSION['prof'];} else {$line .= $_SESSION['int'];} $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Medicine' onclick='statRolls("; if ($_SESSION['skill_medicine'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Nature' onclick='statRolls("; if ($_SESSION['skill_nature'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Perception' onclick='statRolls("; if ($_SESSION['skill_perception'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Performance' onclick='statRolls("; if ($_SESSION['skill_performance'] != 0) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Persuasion' onclick='statRolls("; if ($_SESSION['skill_persuasion'] != 0) $line .= $_SESSION['cha'] + $_SESSION['prof']; else $line .= $_SESSION['cha']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Religion' onclick='statRolls("; if ($_SESSION['skill_religion'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Sleight of Hand' onclick='statRolls("; if ($_SESSION['skill_sleight_of_hand'] != 0) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Stealth' onclick='statRolls("; if ($_SESSION['skill_stealth'] != 0) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Survival' onclick='statRolls("; if ($_SESSION['skill_survival'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
         </div>
       </div>
       <div class="characterCombatInfo">
@@ -97,7 +97,7 @@
         <div class="characterStat">
           <label>Charisma <span class="characterMod"><?php if (isset($_SESSION['cha'])) { if ($_SESSION['cha'] > 0) { print "Modifier: +" . $_SESSION['cha']; } } ?></span><?php if (!isset($_SESSION['cha'])){$_SESSION['cha'] = 0;} print "           <input type='button' value='Check' onclick='statRolls(" . $_SESSION['cha'] . ")'>"; ?><span><?php print $_SESSION['chastat']; ?></span></label>
         </div>
-        <form action="../files_php/characterSave.php">
+        <form action="files_php/characterSave.php">
           <input type="submit" value="Save Character">
         </form>
       </div>

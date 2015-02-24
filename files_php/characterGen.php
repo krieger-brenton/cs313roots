@@ -2,7 +2,7 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbconnect.php';
 
 session_start();
-session_unset();
+require $_SERVER['DOCUMENT_ROOT'] . '/files_php/unset.php';
 
 if (!empty($_GET['player_name']))
   $_SESSION['player_name'] = ucwords($_GET['player_name']);
@@ -31,7 +31,15 @@ $stats[5] = 'cha';
 foreach($stats as $stat)
 {
   if (!empty($_GET[$stat]))
+  {
     $_SESSION[$stat] = floor(($_GET[$stat] - 10) / 2);
+    $_SESSION[$stat . "stat"] = $_GET[$stat];
+  }
+  else
+  {
+    $_SESSION[$stat] = 0;
+    $_SESSION[$stat . "stat"] = 10;
+  }
 }
 
 // class and level
@@ -56,6 +64,37 @@ for($i = 0; $i < 12; $i++)
   }
 }
 
+$skills[0] = "skill_acrobatics";
+$skills[1] = "skill_animal_handling";
+$skills[2] = "skill_arcana";
+$skills[3] = "skill_athletics";
+$skills[4] = "skill_deception";
+$skills[5] = "skill_history";
+$skills[6] = "skill_insight";
+$skills[7] = "skill_intimidation";
+$skills[8] = "skill_investigation";
+$skills[9] = "skill_medicine";
+$skills[10] = "skill_nature";
+$skills[11] = "skill_perception";
+$skills[12] = "skill_performance";
+$skills[13] = "skill_persuasion";
+$skills[14] = "skill_religion";
+$skills[15] = "skill_sleight_of_hand";
+$skills[16] = "skill_stealth";
+$skills[17] = "skill_survival";
+
+foreach ($skills as $skill)
+{
+  if (isset($_GET[$skill]))
+  {
+    $_SESSION[$skill] = true;
+  }
+  else
+  {
+    $_SESSION[$skill] = 0; 
+  }
+}
+
 if (!empty($_GET['weapon_one']))
   $_SESSION['weapon_one'] = $_GET['weapon_one'];
 
@@ -69,7 +108,7 @@ if (!empty($_GET['armor']))
 
 
 $db = loadDatabase();
-$SQL = $db->query("SELECT size,speed FROM race WHERE race_name='" . $_SESSION['race'] . "'");
+$SQL = $db->query("SELECT size, speed FROM race WHERE race_name='" . $_SESSION['race'] . "'");
 $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($results as $row)
@@ -163,4 +202,5 @@ if (!empty($_GET['weapon_two']))
   }
 }
 
+header($_SERVER['DOCUMENT_ROOT'] . "characterDisplay.php");
 ?>
