@@ -34,4 +34,5 @@ catch (PDOException $e)
 }
 
 print "</form>";
+print "<a href='../characterMenu.php'>Go back to Menu</a>"
 ?>
