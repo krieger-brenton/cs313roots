@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
   $user = $_POST['user'];
   $password = $_POST['password'];
-  //$password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_DEFAULT);
 
   $db = loadDatabase();
 
@@ -46,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 </head>
 <body>
   <header>
-    <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.php" class="navbutton">Character Maker</a></nav>
+    <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
   </header>
 </body>
 <div class="master">
