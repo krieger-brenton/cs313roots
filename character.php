@@ -8,14 +8,12 @@
   </head>
   <body>
     <header>
-      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
+      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a><a href="../files_php/signOut.php" class="navbutton"><?php session_start(); if(isset($_SESSION['player_name'])) print ucwords($_SESSION['player_name']); else print "Sign Out";?></a></nav>
     </header>
-    <div class="master"><?php session_start();?>
+    <div class="master">
       <form action="characterGen.php" id="character_form">
         <div class="playerholder">
           <div class="characterheading">Player</div>
-          <label>Player Name</label>
-          <input type="text" name="player_name" class="playertext">
           <label>Character Name</label>
           <input type="text" name="character_name" class="playertext">
           <label>Alignment</label>

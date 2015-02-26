@@ -14,10 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
   $SQL->bindParam(':username', $user, PDO::PARAM_STR);
   $SQL->bindParam(':password', $password, PDO::PARAM_STR);
-
   $SQL->execute();
 
-  header('location:' . 'signin.php');
+  header('location: signin.php');
 }
 ?>
 
@@ -32,15 +31,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 </head>
 <body>
   <header>
-    <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="character.php" class="navbutton">Character Maker</a></nav>
+    <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
   </header>
 </body>
 <div class="master">
   <h1>Sign Up</h1>
-  <form action="<?PHP echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
-    <input type='text' name="user" placeholder='User Name'> <br/>
-    <input type='password' name="password" placeholder='Password'> <br/>
-    <input type='submit' value='Sign Me Up!'>
-  </form>
+  <div>
+    <h2>New Adventurers</h2>
+    <form action="<?PHP echo htmlspecialchars($_SERVER['PHP_SELF'])?>" onsubmit="return validatePassword()" method="POST">
+      <input type='text' name="user" placeholder='User Name'> <br/>
+      <input type='password' name="password" placeholder='Password'> <br/>
+      <input type='password' name="passwordConfirm" placeholder='Confirm Password'> <br/>
+      <input type='submit' value='Sign Me Up!'>
+    </form>
+    <a href="files_php/signin.php">Veterans click here to sign in.</a>
+  </div>
 </div>
 </html>

@@ -4,11 +4,6 @@ require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbconnect.php';
 session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/files_php/unset.php';
 
-if (!empty($_GET['player_name']))
-  $_SESSION['player_name'] = ucwords($_GET['player_name']);
-else
-  $_SESSION['player_name'] = "";
-
 if (!empty($_GET['character_name']))
   $_SESSION['character_name'] = ucwords($_GET['character_name']);
 else
@@ -103,8 +98,8 @@ if (!empty($_GET['weapon_two']))
 
 if (!empty($_GET['armor']))
   $_SESSION['armor'] = $_GET['armor'];
-
-
+else
+  $_SESSION['armor'] = "unarmored";
 
 
 $db = loadDatabase();
@@ -202,5 +197,5 @@ if (!empty($_GET['weapon_two']))
   }
 }
 
-header($_SERVER['DOCUMENT_ROOT'] . "characterDisplay.php");
+header("Location: ../characterDisplay.php");
 ?>

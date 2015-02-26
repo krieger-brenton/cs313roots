@@ -8,9 +8,9 @@
   </head>
   <body>
     <header>
-      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a></nav>
+      <nav><a href="index.php" class="navbutton">Home</a><a href="assignments.php" class="navbutton">Assignments</a><a href="characterMenu.php" class="navbutton">Character Maker</a><a href="../files_php/signOut.php" class="navbutton"><?php session_start(); if(isset($_SESSION['player_name'])) print ucwords($_SESSION['player_name']); else print "Sign Out";?></a></nav>
     </header>
-    <div class="master"><?php session_start(); $classes[0] = 'barbarian'; $classes[1] = 'bard'; $classes[2] = 'cleric'; $classes[3] = 'druid'; $classes[4] = 'fighter'; $classes[5] = 'monk'; $classes[6] = 'paladin'; $classes[7] = 'ranger'; $classes[8] = 'rogue'; $classes[9] = 'sorcerer'; $classes[10] = 'warlock'; $classes[11] = 'wizard';?>
+    <div class="master"><?php $classes[0] = 'barbarian'; $classes[1] = 'bard'; $classes[2] = 'cleric'; $classes[3] = 'druid'; $classes[4] = 'fighter'; $classes[5] = 'monk'; $classes[6] = 'paladin'; $classes[7] = 'ranger'; $classes[8] = 'rogue'; $classes[9] = 'sorcerer'; $classes[10] = 'warlock'; $classes[11] = 'wizard';?>
       <div class="characterInfo">
         <div class="playerName"><span><?php print "Player Name: " . $_SESSION['player_name']; ?></span></div>
         <div class="characterName"><span><?php print "Character Name: " . $_SESSION['character_name']; ?></span></div>
@@ -28,7 +28,7 @@
         <lable>Skill Checks</lable>
         <div class="col">
            
-          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if ($_SESSION['skill_acrobatics'] != 0) $line .= $_SESSION['dex'] + $_SESSION['prof']; else $line .= $_SESSION['dex']; $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if ($_SESSION['skill_acrobatics'] == 0) {$line .= $_SESSION['dex'] + $_SESSION['prof'];} else {$line .= $_SESSION['dex'];} $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Animal Handling' onclick='statRolls("; if ($_SESSION['skill_animal_handling'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Arcana' onclick='statRolls("; if ($_SESSION['skill_arcana'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Athletics' onclick='statRolls("; if ($_SESSION['skill_athletics'] != 0) $line .= $_SESSION['str'] + $_SESSION['prof']; else $line .= $_SESSION['str']; $line .= ")'> <BR />"; print $line; ?>
@@ -99,6 +99,9 @@
         </div>
         <form action="files_php/characterSave.php">
           <input type="submit" value="Save Character">
+        </form>
+        <form action="files_php/characterDelete.php">
+          <input type="submit" value="Delete Character">
         </form>
       </div>
     </div>

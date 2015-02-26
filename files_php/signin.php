@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -6,18 +7,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
   require "dbconnect.php";
 
   $user = $_POST['user'];
+  $password = $_POST['password'];
   //$password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_DEFAULT);
 
-  //$db = loadDatabase();
+  $db = loadDatabase();
 
-  //$SQL = $db->prepare("INSERT INTO user (username, password) VALUES (:username, :password)");
+  $SQL = $db->prepare("SELECT password FROM user WHERE username = :username");
+  $SQL->bindParam(':username', $user, PDO::PARAM_STR);
 
-  //$SQL->bindParam(':username', $user, PDO::PARAM_STR);
-  //$SQL->bindParam(':password', $password, PDO::PARAM_STR);
+  $result = $SQL->execute();
 
-  //$SQL->execute();
+  if ($result)
+  {
+    $row = $SQL->fetch();
+    $hashedPassword = $row['password'];
+  }
 
-  header('location:' . 'homepage.php');
+  if (password_verify($password, $hashedPassword))
+  {
+        // password was correct, put the user on the session, and redirect to home
+    $_SESSION['player_name'] = $user;
+    header('location: ../characterMenu.php');
+    die(); // we always include a die after redirects.
+  }
+      else
+      {
+        print "BaD STUFF";
+      }
 }
 ?>
 

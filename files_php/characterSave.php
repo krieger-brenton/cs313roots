@@ -27,13 +27,34 @@ catch (PDOException $e)
  echo $e->getMessage();
 }
 
+
+try
+{
+  $SQL = $db->prepare("SELECT armor_id FROM armor WHERE armor_name = :armor_name");
+  $SQL->bindParam(':armor_name' , $_SESSION['armor'], PDO::PARAM_STR);  
+  $SQL->execute();
+
+  $results = $SQL->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach ($results as $row)
+  {
+    $_SESSION['armor_id'] = $row['armor_id'];
+  }
+}
+catch (PDOException $e) 
+{
+ echo $e->getMessage();
+}
+
+
 try 
 {
-  $SQL = $db->prepare("UPDATE `character` SET str = :str, dex = :dex, con = :con, `int` = :int, wis = :wis, cha = :cha, alignment = :alignment, race_id = :race, time_stamp = NOW() WHERE player_name = :player_name AND character_name = :character_name");
+  $SQL = $db->prepare("UPDATE `character` SET str = :str, dex = :dex, con = :con, `int` = :int, wis = :wis, cha = :cha, alignment = :alignment, race_id = :race, armor_id = :armor_id, time_stamp = NOW() WHERE player_name = :player_name AND character_name = :character_name");
   $SQL->bindParam(':player_name', $_SESSION['player_name'], PDO::PARAM_STR);
   $SQL->bindParam(':character_name', $_SESSION['character_name'], PDO::PARAM_STR);
   $SQL->bindParam(':alignment', $_SESSION['alignment'], PDO::PARAM_STR);
   $SQL->bindParam(':race', $_SESSION['race'], PDO::PARAM_INT);
+  $SQL->bindParam(':armor_id', $_SESSION['armor_id'], PDO::PARAM_INT);
   $SQL->bindParam(':str', $_SESSION['strstat'], PDO::PARAM_INT);
   $SQL->bindParam(':dex', $_SESSION['dexstat'], PDO::PARAM_INT);
   $SQL->bindParam(':con', $_SESSION['constat'], PDO::PARAM_INT);
@@ -102,8 +123,8 @@ if (count($results) != 0)
       . ", perception = " . $_SESSION['skill_perception'] . ", performance = " . $_SESSION['skill_performance'] . ", persuasion = " . $_SESSION['skill_persuasion'] . ", religion = " . $_SESSION['skill_religion'] 
       . ", sleight_of_hand = " . $_SESSION['skill_sleight_of_hand'] . ", stealth = " . $_SESSION['skill_stealth'] . ", survival = " . $_SESSION['skill_survival'] . " WHERE character_id = " . $_SESSION['character_id']);
 
-    $SQL->execute();
-  }
+$SQL->execute();
+}
 catch (PDOException $e) 
 {
  echo $e->getMessage();
@@ -126,26 +147,13 @@ else
       . "," . $_SESSION['skill_religion'] . "," . $_SESSION['skill_sleight_of_hand'] 
       . "," . $_SESSION['skill_stealth'] . "," . $_SESSION['skill_survival'] . ")");
 
-    $SQL->execute();
-    $_SESSION['skill_id'] = PDO::lastInsertId();
-  }
-catch (PDOException $e) 
-{
- echo $e->getMessage();
-}
-}
-
-/*try
-{
-  $SQL = $db->prepare("UPDATE `character` SET skill_id = :skill_id WHERE character_id = :character_id");
-  $SQL->bindParam(':skill_id', $_SESSION['skill_id'], PDO::PARAM_STR);
-  $SQL->bindParam(':character_id', $_SESSION['character_id'], PDO::PARAM_STR);
-
-  $SQL->execute();
+$SQL->execute();
+$_SESSION['skill_id'] = $db->lastInsertId();
 }
 catch (PDOException $e) 
 {
  echo $e->getMessage();
+}
 }
 
 $classes[0] = 'barbarian';
@@ -161,19 +169,21 @@ $classes[9] = 'sorcerer';
 $classes[10] = 'warlock';
 $classes[11] = 'wizard';
 
+$SQL = $db->prepare("DELETE FROM class WHERE character_id = :character_id");
+$SQL->bindParam(':character_id', $_SESSION['character_id'], PDO::PARAM_STR);
+$SQL->execute();
+
 for($i = 0; $i < 12; $i++)
 {
-  if (!empty($_GET[$classes[$i]]))
+  if (isset($_SESSION[$classes[$i]]))
   {
-    
+    $SQL = $db->prepare("INSERT INTO class (character_id, name, level) VALUES(:character_id, :name, :level)");
+    $SQL->bindParam(':character_id', $_SESSION['character_id'], PDO::PARAM_STR);
+    $SQL->bindParam(':name', $classes[$i], PDO::PARAM_STR);
+    $SQL->bindParam(':level', $_SESSION[$classes[$i]], PDO::PARAM_STR);
+    $SQL->execute();
   }
 }
-
-$SQL = $db->prepare("INSERT INTO class (name, level) VALUES ()");
-$SQL = $db->prepare("INSERT INTO character_class (character_id, class_id) VALUES (" . $_SESSION['character_id']) .  ")");
-*/
-
-
 
 
 header("Location: ../characterMenu.php"); 
