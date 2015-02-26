@@ -29,10 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     header('location: ../characterMenu.php');
     die(); // we always include a die after redirects.
   }
-      else
-      {
-        print "BaD STUFF";
-      }
+  else
+  {
+    print "BaD STUFF";
+    print 
+  }
 }
 ?>
 
