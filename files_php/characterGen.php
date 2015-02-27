@@ -198,4 +198,5 @@ if (!empty($_GET['weapon_two']))
 }
 
 header("Location: ../characterDisplay.php");
+die();
 ?>

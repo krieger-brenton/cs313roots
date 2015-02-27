@@ -164,4 +164,5 @@ foreach ($results as $row)
 
 
 header("Location: ../characterDisplay.php");
+die();
 ?>

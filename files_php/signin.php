@@ -20,18 +20,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
   {
     $row = $SQL->fetch();
     $hashedPassword = $row['password'];
-  }
 
-  if (password_verify($password, $hashedPassword))
-  {
-        // password was correct, put the user on the session, and redirect to home
-    $_SESSION['player_name'] = $user;
-    header('location: ../characterMenu.php');
-    die(); // we always include a die after redirects.
+
+    if (password_verify($password, $hashedPassword))
+    {
+      $_SESSION['player_name'] = $user;
+      header('location: ../characterMenu.php');
+      die();
+    }
+    else
+    {
+      echo "Error!";
+    }
   }
   else
   {
-    print "BaD STUFF";
+    echo "Error!";
   }
 }
 ?>

@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
   require "password.php";
@@ -19,8 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
   header('location: signin.php');
 }
 ?>
-
-
 
 <html>
 <head>

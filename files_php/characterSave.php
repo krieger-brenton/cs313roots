@@ -2,12 +2,7 @@
 session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbconnect.php';
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 $db = loadDatabase();
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 try
 {
@@ -24,7 +19,8 @@ try
 }
 catch (PDOException $e) 
 {
- echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 
 
@@ -43,7 +39,8 @@ try
 }
 catch (PDOException $e) 
 {
- echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 
 
@@ -66,7 +63,8 @@ try
 }
 catch (PDOException $e) 
 {
- echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 
 if($SQL->rowCount() == 0)
@@ -89,7 +87,8 @@ if($SQL->rowCount() == 0)
   }
   catch (PDOException $e) 
   {
-   echo $e->getMessage();
+    echo "Error!";
+    //echo $e->getMessage();
  }
 }
 
@@ -127,7 +126,8 @@ $SQL->execute();
 }
 catch (PDOException $e) 
 {
- echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 }
 else
@@ -152,7 +152,8 @@ $_SESSION['skill_id'] = $db->lastInsertId();
 }
 catch (PDOException $e) 
 {
- echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 }
 
@@ -187,4 +188,5 @@ for($i = 0; $i < 12; $i++)
 
 
 header("Location: ../characterMenu.php"); 
+die();
 ?>

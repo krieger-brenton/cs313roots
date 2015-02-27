@@ -28,7 +28,7 @@
         <lable>Skill Checks</lable>
         <div class="col">
            
-          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if ($_SESSION['skill_acrobatics'] == 0) {$line .= $_SESSION['dex'] + $_SESSION['prof'];} else {$line .= $_SESSION['dex'];} $line .= ")'> <BR />"; print $line; ?>
+          <?php $line = "<input type='button' value='Acrobatics' onclick='statRolls("; if ($_SESSION['skill_acrobatics'] != 0) {$line .= $_SESSION['dex'] + $_SESSION['prof'];} else {$line .= $_SESSION['dex'];} $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Animal Handling' onclick='statRolls("; if ($_SESSION['skill_animal_handling'] != 0) $line .= $_SESSION['wis'] + $_SESSION['prof']; else $line .= $_SESSION['wis']; $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Arcana' onclick='statRolls("; if ($_SESSION['skill_arcana'] != 0) $line .= $_SESSION['int'] + $_SESSION['prof']; else $line .= $_SESSION['int']; $line .= ")'> <BR />"; print $line; ?>
           <?php $line = "<input type='button' value='Athletics' onclick='statRolls("; if ($_SESSION['skill_athletics'] != 0) $line .= $_SESSION['str'] + $_SESSION['prof']; else $line .= $_SESSION['str']; $line .= ")'> <BR />"; print $line; ?>

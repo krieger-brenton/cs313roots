@@ -3,12 +3,7 @@ session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/files_php/dbconnect.php';
 $_SESSION['player_name'] = "Brent";
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 $db = loadDatabase();
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 print "<form action='characterLoad.php' method='POST'>";
 
@@ -30,7 +25,8 @@ try
 }
 catch (PDOException $e) 
 {
-  echo $e->getMessage();
+  echo "Error!";
+  //echo $e->getMessage();
 }
 
 print "</form>";
